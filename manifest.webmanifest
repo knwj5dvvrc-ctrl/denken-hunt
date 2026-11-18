@@ -1,0 +1,25 @@
+{
+  "name": "電験クエスト 〜狩猟編〜",
+  "short_name": "電験ハント",
+  "description": "電験三種の理論を学びながら大型モンスターを狩猟するRPG",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b111b",
+  "theme_color": "#101a27",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
