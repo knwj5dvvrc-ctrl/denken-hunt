@@ -40,11 +40,11 @@ main{max-width:740px;padding:20px 14px 118px}.eyebrow{color:#d9b879;letter-spaci
  .tabs button{min-width:0;font-size:11px;padding:11px 1px}.audio-panel{margin-top:14px} /* Battle layout: keep monster in view while answering on iPhone. */
 .battle-panel{overflow:visible}.battle-monster{position:sticky;top:0;z-index:6;margin:10px 0 0;box-shadow:0 8px 24px #000b}.battle-monster img{height:clamp(175px,42vw,255px);object-fit:contain;object-position:center}.battle-quiz{position:relative;z-index:1;background:linear-gradient(155deg,#28282c,#14171d);border:1px solid #8e7853;padding:12px;margin-top:8px}.battle-quiz .question{margin:7px 0 10px;font-size:15px;line-height:1.5}.battle-quiz .choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.battle-quiz .choice{padding:10px 8px;min-height:54px;font-size:13px}.battle-tools{padding-top:9px}.battle-tools .parts{margin-top:5px}
 @media(max-width:390px){.battle-monster img{height:170px}.battle-quiz .choice{font-size:12px;padding:9px 6px}.battle-quiz{padding:9px}}
-</style></head><body><main><div class="eyebrow">⚡ DENKEN QUEST — HUNTER EDITION</div><h1>電験クエスト <span class="muted">狩猟編 Ver.0.6 BATTLE</span></h1><p class="muted">理論の知識で狩り、素材で装備を鍛える。<br><small>AI生成のオリジナル・ダークファンタジーアートを使用。</small></p><div class="stats"><div class="stat"><small>ハンターLv</small><b id="level"></b></div><div class="stat"><small>所持金</small><b id="gold"></b></div><div class="stat"><small>討伐数</small><b id="wins"></b></div></div>
+.tabs{overflow-x:auto;justify-content:flex-start}.tabs button{flex:0 0 auto;min-width:60px}</style></head><body><main><div class="eyebrow">⚡ DENKEN QUEST — HUNTER EDITION</div><h1>電験クエスト <span class="muted">狩猟編 Ver.0.7.1</span></h1><p class="muted">理論の知識で狩り、素材で装備を鍛える。<br><small>AI生成のオリジナル・ダークファンタジーアートを使用。</small></p><div class="stats"><div class="stat"><small>ハンターLv</small><b id="level"></b></div><div class="stat"><small>所持金</small><b id="gold"></b></div><div class="stat"><small>討伐数</small><b id="wins"></b></div></div>
 <section id="hunt"><div class="panel battle-panel"><div class="row"><div><div class="eyebrow" id="questTitle"></div><h2 id="monsterName"></h2><span class="muted" id="monsterDesc"></span></div><span class="tag" id="rage"></span></div><div class="bar"><div id="monsterBar" class="fill red"></div></div><div class="row muted"><span id="monsterHp"></span><span id="hunterHp"></span></div><div class="bar"><div id="hunterBar" class="fill"></div></div><div class="monster battle-monster" id="monsterIcon"></div><div class="battle-quiz"><div class="eyebrow">⚔️ HUNTER ACTION — 正解で斬撃！</div><div class="question" id="question"></div><div class="choices" id="choices"></div><div id="feedback"></div><button id="next" style="display:none;width:100%;margin-top:10px" onclick="nextTurn()">次のターンへ</button></div><div class="battle-tools"><p class="muted">🎯 狙う部位を選択（破壊すると追加素材を獲得）</p><div class="parts" id="parts"></div><p class="muted" id="combatStats"></p><div class="actions"><button class="secondary" id="heal" onclick="heal()">🧪 回復薬（80G）</button><button class="secondary" onclick="showTab('quests')">🗺️ クエスト変更</button></div></div></div></section>
 <section id="quests" class="hidden"><div class="panel"><h2>🗺️ 狩猟クエスト</h2><p class="muted">大型モンスターを選んで出発！ 進行中の狩りは切り替えるとリセットされます。</p><div class="quest-banner">HUNTER GUILD — QUEST BOARD</div><div id="questList"></div></div></section>
-<section id="forge" class="hidden"><div class="panel"><h2>🔨 加工屋</h2><p class="muted">素材とゴールドで装備を生産。生産した装備は自動装備されます。</p><div id="forgeList"></div></div><div class="panel"><h2>🎒 素材ポーチ</h2><div id="inventory"></div></div></section>
-<section id="record" class="hidden"><div class="panel"><h2>📖 狩猟記録</h2><div id="records"></div></div><div class="panel"><h2>データ管理</h2><p class="muted">端末内に自動保存します。旧Ver.0.2のセーブデータとは別です。サイトデータ削除で消えることがあります。</p><button class="secondary" onclick="resetGame()">最初からやり直す</button></div></section><section id="settings" class="hidden"><div class="panel"><div class="eyebrow">GAME SETTINGS</div><h2>⚙️ 設定</h2><p class="muted">BGM・効果音の音量を調整できます。設定した音量はこの端末に保存されます。</p><div class="audio-panel"><div class="row"><div><b>🎼 狩猟サウンド</b><br><small>敵ごとに異なるオーケストラ風オリジナルBGM</small></div><button id="audioToggle" onclick="toggleAudio()">🔊 音をON</button></div><label>BGM音量 <input id="bgmVolume" type="range" min="0" max="100" value="85" oninput="setAudioVolume('bgm',this.value)"></label><label>効果音量 <input id="sfxVolume" type="range" min="0" max="100" value="65" oninput="setAudioVolume('sfx',this.value)"></label><div class="audio-status" id="audioStatus" role="status">音はOFFです。音をONを押すと再生を開始します。</div></div></div></section><div class="footer">非公式オリジナル学習ゲーム。実際の試験の出題を保証するものではありません。</div></main><nav class="tabs"><button id="tabhunt" class="active" onclick="showTab('hunt')">⚔️ 狩猟</button><button id="tabquests" onclick="showTab('quests')">🗺️ クエスト</button><button id="tabforge" onclick="showTab('forge')">🔨 加工屋</button><button id="tabrecord" onclick="showTab('record')">📖 記録</button><button id="tabsettings" onclick="showTab('settings')">⚙️ 設定</button></nav><script>
+<section id="past" class="hidden"><div class="panel"><h2>📚 電験三種・過去問討伐</h2><p class="muted">実際の試験問題を公式サイトの問題PDFで確認し、ゲーム内で5択回答。正答は公式解答表に基づき自動判定します。問題本文・図は公式PDFで参照してください。</p><div class="row"><label>科目 <select id="pastSubject" onchange="pastChange()"><option>理論</option><option>電力</option><option>機械</option><option>法規</option></select></label><label>問題 <select id="pastNumber" onchange="pastChange()"></select></label></div><p class="muted" id="pastSource"></p><p><a id="pastQuestionLink" target="_blank" rel="noopener" href="#">📄 公式問題一覧を開く</a>　<a id="pastAnswerLink" target="_blank" rel="noopener" href="#">公式解答表</a></p><div class="question" id="pastHeading"></div><div class="choices" id="pastChoices"></div><div id="pastFeedback"></div><button class="secondary" onclick="pastNext()">次の問題へ →</button></div></section><section id="forge" class="hidden"><div class="panel"><h2>🔨 加工屋</h2><p class="muted">素材とゴールドで装備を生産。生産した装備は自動装備されます。</p><div id="forgeList"></div></div><div class="panel"><h2>🎒 素材ポーチ</h2><div id="inventory"></div></div></section>
+<section id="record" class="hidden"><div class="panel"><h2>📖 狩猟記録</h2><div id="records"></div></div><div class="panel"><h2>データ管理</h2><p class="muted">端末内に自動保存します。旧Ver.0.2のセーブデータとは別です。サイトデータ削除で消えることがあります。</p><button class="secondary" onclick="resetGame()">最初からやり直す</button></div></section><section id="settings" class="hidden"><div class="panel"><div class="eyebrow">GAME SETTINGS</div><h2>⚙️ 設定</h2><p class="muted">BGM・効果音の音量を調整できます。設定した音量はこの端末に保存されます。</p><div class="audio-panel"><div class="row"><div><b>🎼 狩猟サウンド</b><br><small>敵ごとに異なる楽器サンプル演奏のオリジナルBGM</small></div><button id="audioToggle" onclick="toggleAudio()">🔊 音をON</button></div><label>BGM音量 <input id="bgmVolume" type="range" min="0" max="100" value="85" oninput="setAudioVolume('bgm',this.value)"></label><label>効果音量 <input id="sfxVolume" type="range" min="0" max="100" value="65" oninput="setAudioVolume('sfx',this.value)"></label><div class="audio-status" id="audioStatus" role="status">音はOFFです。音をONを押すと再生を開始します。</div></div></div></section><div class="footer">非公式学習ゲーム。通常狩猟はオリジナル問題、過去問は公式PDF参照・自己採点方式。</div></main><nav class="tabs"><button id="tabhunt" class="active" onclick="showTab('hunt')">⚔️ 狩猟</button><button id="tabquests" onclick="showTab('quests')">🗺️ クエスト</button><button id="tabpast" onclick="showTab('past')">📚 過去問</button><button id="tabforge"  onclick="showTab('forge')">🔨 加工屋</button><button id="tabrecord" onclick="showTab('record')">📖 記録</button><button id="tabsettings" onclick="showTab('settings')">⚙️ 設定</button></nav><script>
 
 // 電験クエスト専用のWeb Audio音源。既存曲・外部音声ファイルを使用しません。
 const AUDIO_PREF_KEY='denken-hunt-audio-v06';
@@ -59,76 +59,14 @@ const THEMES=[
 function audioNote(midi,time,duration,bus,wave='sine',level=.1,slide=0){if(!audioCtx||!bus)return;let f=440*Math.pow(2,(midi-69)/12);let osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=wave;osc.frequency.setValueAtTime(f,time);if(slide)osc.frequency.exponentialRampToValueAtTime(Math.max(20,f*slide),time+duration);gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,level),time+.012);gain.gain.exponentialRampToValueAtTime(.0001,time+duration);osc.connect(gain);gain.connect(bus);osc.start(time);osc.stop(time+duration+.02)}
 function setupAudio(){if(audioCtx)return true;const AC=window.AudioContext||window.webkitAudioContext;if(!AC){document.getElementById('audioStatus').textContent='このブラウザでは音声に対応していません';return false}audioCtx=new AC();audioMaster=audioCtx.createGain();audioMaster.gain.value=.9;audioMaster.connect(audioCtx.destination);bgmBus=audioCtx.createGain();sfxBus=audioCtx.createGain();bgmBus.connect(audioMaster);sfxBus.connect(audioMaster);applyAudioVolume();return true}
 function applyAudioVolume(){if(bgmBus)bgmBus.gain.value=Math.pow(audioPrefs.bgm/100,1.1)*1.0;if(sfxBus)sfxBus.gain.value=Math.pow(audioPrefs.sfx/100,1.2)*.65}
-function setAudioVolume(type,value){audioPrefs[type]=Number(value);applyAudioVolume();try{localStorage.setItem(AUDIO_PREF_KEY,JSON.stringify(audioPrefs))}catch(e){}}
+function setAudioVolume(type,value){audioPrefs[type]=Number(value);applyAudioVolume();if(type==='bgm')applyOrchestraVolume();try{localStorage.setItem(AUDIO_PREF_KEY,JSON.stringify(audioPrefs))}catch(e){}}
 function stopMusic(){if(musicTimer!==null){clearInterval(musicTimer);musicTimer=null}}
-// オリジナルのオーケストラ風音源。既存ゲームの楽曲・旋律は使用しません。
-const ORCH=[
- {tempo:94,root:41,scale:[0,2,3,5,7,8,10],chords:[[0,3,7],[8,0,3],[5,8,0],[10,2,5]],lead:[0,2,3,7,5,3,2,0,8,7,5,3,2,3,0,null]},
- {tempo:150,root:50,scale:[0,2,3,5,7,9,10],chords:[[0,3,7],[9,0,3],[5,9,0],[10,2,5]],lead:[0,3,7,9,7,5,3,2,0,2,5,7,10,9,7,5]},
- {tempo:110,root:38,scale:[0,1,3,5,6,8,10],chords:[[0,3,6],[6,10,1],[5,8,0],[1,5,8]],lead:[0,1,3,6,5,3,1,0,6,8,10,8,6,5,3,1]},
- {tempo:138,root:45,scale:[0,2,3,5,6,8,11],chords:[[0,3,6],[8,0,3],[5,8,11],[11,2,5]],lead:[0,3,6,8,11,8,6,3,5,8,11,13,11,8,6,5]}
-];
-let orchestraNext=0,orchestraStep=0;
-// 複数の倍音を重ね、弦楽器・金管楽器・低音楽器の雰囲気を合成する。
-function orchVoice(midi,when,dur,kind,vol){
- if(!audioCtx||!bgmBus)return;
- const f=440*Math.pow(2,(midi-69)/12),g=audioCtx.createGain();
- const attack=kind==='brass'?.065:kind==='strings'?.16:.012;
- const release=kind==='strings'?.22:.13;
- g.gain.setValueAtTime(.0001,when);
- g.gain.linearRampToValueAtTime(vol,when+Math.min(attack,dur*.35));
- g.gain.setValueAtTime(vol*.75,when+Math.max(attack,dur*.6));
- g.gain.exponentialRampToValueAtTime(.0001,when+dur+release);
- const low=audioCtx.createBiquadFilter();low.type='lowpass';
- low.frequency.value=kind==='brass'?1900:kind==='strings'?1400:650;
- low.Q.value=.5;g.connect(low);low.connect(bgmBus);
- const waves=kind==='brass'?['sawtooth','triangle']:kind==='strings'?['sawtooth','triangle','sine']:['triangle','sine'];
- waves.forEach((w,i)=>{
-   const o=audioCtx.createOscillator();o.type=w;
-   o.frequency.setValueAtTime(f,when);
-   o.detune.value=(i-(waves.length-1)/2)*(kind==='strings'?7:3);
-   const mix=audioCtx.createGain();mix.gain.value=(i===0?.55:.3)/waves.length*2;
-   o.connect(mix);mix.connect(g);
-   o.start(when);o.stop(when+dur+release+.03);
- });
-}
-function orchDrum(when,kind,vol){
- if(!audioCtx||!bgmBus)return;
- const o=audioCtx.createOscillator(),g=audioCtx.createGain();
- o.type='sine';const f=kind==='timpani'?125:kind==='kick'?85:210;
- o.frequency.setValueAtTime(f,when);
- o.frequency.exponentialRampToValueAtTime(kind==='snare'?95:45,when+.16);
- g.gain.setValueAtTime(vol,when);
- g.gain.exponentialRampToValueAtTime(.0001,when+(kind==='timpani'?.45:.19));
- o.connect(g);g.connect(bgmBus);o.start(when);o.stop(when+.48);
-}
-function musicTick(){
- if(!audioEnabled||!audioCtx||audioCtx.state!=='running')return;
- const theme=ORCH[s.monster]||ORCH[0],beat=60/theme.tempo,now=audioCtx.currentTime;
- if(orchestraNext<now)orchestraNext=now+.035;
- let count=0;
- while(orchestraNext<now+.22&&count++<12){
-   const n=orchestraStep++,t=orchestraNext;
-   const chord=theme.chords[Math.floor(n/8)%theme.chords.length];
-   if(n%8===0){
-     chord.forEach((offset,i)=>orchVoice(theme.root+12+offset,t,beat*7.7,'strings',.042));
-     orchVoice(theme.root+chord[0]-12,t,beat*6.7,'bass',.115);
-   }
-   if(n%2===0){
-     const note=theme.lead[Math.floor(n/2)%theme.lead.length];
-     if(note!==null)orchVoice(theme.root+24+note,t,beat*(n%4===0?1.8:1.25),'brass',.095);
-   }
-   if(n%4===0){orchDrum(t,'timpani',.14);orchVoice(theme.root+chord[0],t,beat*1.9,'bass',.11)}
-   if(n%4===2)orchDrum(t,'snare',.035);
-   if(s.monster>0&&n%2===1)orchVoice(theme.root+12+chord[(n>>1)%3],t,beat*.65,'strings',.035);
-   orchestraNext+=beat/2;
- }
-}
-function startMusic(){
- stopMusic();if(!audioEnabled||!audioCtx)return;
- activeTheme=s.monster;orchestraStep=0;orchestraNext=audioCtx.currentTime+.045;
- musicTick();musicTimer=setInterval(musicTick,65);
-}
+// サンプル音源を使ったオリジナルのオーケストラ演奏（MP3）
+const orchestraTracks=[0,1,2,3,4,5].map(i=>{const a=new Audio('./track-'+(i%4)+'.mp3');a.loop=true;a.preload='auto';return a});
+function musicTick(){} // 旧合成音源の互換用
+function stopMusic(){if(musicTimer!==null){clearInterval(musicTimer);musicTimer=null}orchestraTracks.forEach(a=>{a.pause();a.currentTime=0})}
+function applyOrchestraVolume(){orchestraTracks.forEach(a=>{a.volume=Math.min(1,Math.pow(audioPrefs.bgm/100,1.1)*.95);a.muted=!audioEnabled})}
+function startMusic(){stopMusic();if(!audioEnabled)return;activeTheme=s.monster;applyOrchestraVolume();const track=orchestraTracks[s.monster];if(track){track.play().catch(()=>{document.getElementById('audioStatus').textContent='BGMを再生できません。設定から「音をON」を押し直してください'})}}
 async function toggleAudio(){if(audioEnabled){audioEnabled=false;stopMusic();if(audioCtx)await audioCtx.suspend();document.getElementById('audioToggle').textContent='🔊 音をON';document.getElementById('audioStatus').textContent='音はOFFです';return}if(!setupAudio())return;try{await audioCtx.resume();audioEnabled=true;document.getElementById('audioToggle').textContent='🔇 ミュート';document.getElementById('audioStatus').textContent='再生中：'+MONSTERS[s.monster].name+' の戦闘曲';startMusic()}catch(e){document.getElementById('audioStatus').textContent='音声を開始できませんでした。画面をタップして再試行してください'}}
 function sound(type){if(!audioEnabled||!audioCtx||audioCtx.state!=='running')return;const t=audioCtx.currentTime+.01;switch(type){case 'hit':audioNote(76,t,.14,sfxBus,'sawtooth',.23,.32);audioNote(43,t+.04,.18,sfxBus,'triangle',.2,.55);break;case 'hurt':audioNote(50,t,.34,sfxBus,'square',.19,.55);break;case 'break':for(let i=0;i<5;i++)audioNote(76-i*8,t+i*.047,.15,sfxBus,'sawtooth',.15,.55);break;case 'win':[60,64,67,72,79].forEach((n,i)=>audioNote(n,t+i*.13,.52,sfxBus,'triangle',.2));break;case 'forge':[54,58,66].forEach((n,i)=>audioNote(n,t+i*.1,.24,sfxBus,'triangle',.17,.72));break;case 'heal':[64,67,72].forEach((n,i)=>audioNote(n,t+i*.11,.25,sfxBus,'sine',.15));break;case 'click':audioNote(72,t,.08,sfxBus,'sine',.06);break}}
 function updateAudioTheme(){if(audioEnabled&&activeTheme!==s.monster){startMusic();document.getElementById('audioStatus').textContent='再生中：'+MONSTERS[s.monster].name+' の戦闘曲'}}
@@ -140,11 +78,51 @@ const QUESTIONS=[
 [{q:'2 μFのコンデンサに10 Vを加えた。蓄えられる電荷は何μCか。',a:['0.2 μC','2 μC','5 μC','20 μC','200 μC'],c:3,e:'Q=CV=2 μF×10 V=20 μC。'},{q:'3 μFと6 μFのコンデンサを並列接続した。合成容量は何μFか。',a:['1 μF','2 μF','3 μF','6 μF','9 μF'],c:4,e:'並列の合成静電容量は和なので3+6=9 μF。'},{q:'4 μFと4 μFのコンデンサを直列接続した。合成容量は何μFか。',a:['1 μF','2 μF','4 μF','6 μF','8 μF'],c:1,e:'1/C=1/4+1/4=1/2 より C=2 μF。'},{q:'電界の強さが100 V/mである一様電界中に、電荷2 Cを置いた。働く力の大きさは何Nか。',a:['0.02 N','2 N','50 N','100 N','200 N'],c:4,e:'F=qE=2×100=200 N。'},{q:'静電容量2 Fのコンデンサに3 Vを加えた。蓄積エネルギーは何Jか。',a:['3 J','6 J','9 J','12 J','18 J'],c:2,e:'W=(1/2)CV²=(1/2)×2×3²=9 J。'}],
 [{q:'磁束密度0.5 Tの一様磁界中で、磁界に垂直な長さ2 mの導体に3 Aの電流が流れる。力の大きさは何Nか。',a:['0.3 N','1 N','2 N','3 N','6 N'],c:3,e:'F=BIl=0.5×3×2=3 N。'},{q:'10巻のコイルを貫く1巻あたりの磁束が、0.2秒間に0.1 Wb変化した。誘導起電力の大きさは何Vか。',a:['0.5 V','1 V','2 V','5 V','10 V'],c:3,e:'|e|=N|ΔΦ/Δt|=10×0.1/0.2=5 V。'},{q:'磁束密度のSI単位はどれか。',a:['Wb','T','H','F','Ω'],c:1,e:'磁束密度BのSI単位はテスラ(T)。磁束の単位はWb。'},{q:'自己インダクタンス2 Hのコイルで、電流が毎秒3 Aの割合で変化した。誘導起電力の大きさは何Vか。',a:['1.5 V','2 V','3 V','6 V','9 V'],c:3,e:'|e|=L|di/dt|=2×3=6 V。'}],
 [{q:'正弦波交流の最大値が100 Vである。実効値はおよそ何Vか。',a:['50 V','70.7 V','100 V','141 V','200 V'],c:1,e:'実効値は最大値/√2=約70.7 V。'},{q:'周波数50 Hzの交流の周期は何秒か。',a:['0.002 s','0.01 s','0.02 s','0.05 s','0.2 s'],c:2,e:'T=1/f=1/50=0.02 s。'},{q:'抵抗10 Ωに実効値2 Aの正弦波交流電流が流れる。平均消費電力は何Wか。',a:['10 W','20 W','30 W','40 W','80 W'],c:3,e:'抵抗の消費電力P=I²R=2²×10=40 W。'},{q:'インダクタンス0.1 H、周波数50 Hzのコイルの誘導リアクタンスはおよそ何Ωか。',a:['3.14 Ω','15.7 Ω','31.4 Ω','50 Ω','314 Ω'],c:2,e:'XL=2πfL=2π×50×0.1≈31.4 Ω。'},{q:'力率0.8、皮相電力100 VAの負荷の有効電力は何Wか。',a:['20 W','60 W','80 W','100 W','125 W'],c:2,e:'P=S cosφ=100×0.8=80 W。'}]];
-const MONSTERS=[{name:'岩甲獣グランモス',icon:'🦏',desc:'電気回路の草原に棲む岩の巨獣',hp:130,atk:15,topic:0,unlock:0,materials:['岩甲の鱗','岩甲の角','岩甲の尾'],reward:140},{name:'雷翼竜ライゼル',icon:'🐲',desc:'静電界の遺跡を飛ぶ雷の飛竜',hp:220,atk:22,topic:1,unlock:1,materials:['雷翼の鱗','雷翼の角','雷翼の尾'],reward:230},{name:'磁嵐竜マグネオス',icon:'🐉',desc:'磁界の洞窟を支配する古き竜',hp:320,atk:29,topic:2,unlock:2,materials:['磁嵐の鱗','磁嵐の角','磁嵐の尾'],reward:350},{name:'共振王レゾナード',icon:'👹',desc:'交流の塔の頂上で待つ王',hp:430,atk:36,topic:3,unlock:3,materials:['共振の鱗','共振の角','共振の尾'],reward:500}];
-const RECIPES=[{id:'w1',name:'岩砕きの大剣',type:'weapon',power:15,cost:130,mats:{'岩甲の鱗':2,'岩甲の角':1}},{id:'a1',name:'岩甲の鎧',type:'armor',power:8,cost:120,mats:{'岩甲の鱗':2,'岩甲の尾':1}},{id:'w2',name:'雷翼の大剣',type:'weapon',power:32,cost:320,mats:{'雷翼の鱗':2,'雷翼の角':1}},{id:'a2',name:'雷翼の鎧',type:'armor',power:17,cost:280,mats:{'雷翼の鱗':2,'雷翼の尾':1}},{id:'w3',name:'磁嵐の大剣',type:'weapon',power:52,cost:520,mats:{'磁嵐の鱗':2,'磁嵐の角':1}},{id:'a3',name:'磁嵐の鎧',type:'armor',power:27,cost:480,mats:{'磁嵐の鱗':2,'磁嵐の尾':1}},{id:'w4',name:'共振王の大剣',type:'weapon',power:78,cost:750,mats:{'共振の鱗':2,'共振の角':1}},{id:'a4',name:'共振王の鎧',type:'armor',power:39,cost:700,mats:{'共振の鱗':2,'共振の尾':1}}];
+QUESTIONS.push([{q:'変圧器の一次側電圧が200 V、巻数比が2:1のとき、二次側電圧は何Vか。',a:['50 V','100 V','200 V','400 V','800 V'],c:1,e:'理想変圧器では電圧比が巻数比に等しく、200×1/2=100 V。'},{q:'送電電力が一定のとき、送電電圧を2倍にすると線路の抵抗損失は何倍か。',a:['1/4倍','1/2倍','同じ','2倍','4倍'],c:0,e:'電流が半分になり、抵抗損失 I²R は1/4倍。'}]);QUESTIONS.push([{q:'4極、周波数50 Hzの誘導電動機の同期速度は何min⁻¹か。',a:['750','1000','1500','3000','6000'],c:2,e:'同期速度 Ns=120f/p=120×50/4=1500 min⁻¹。'},{q:'三相誘導電動機の同期速度が1500 min⁻¹、回転速度が1440 min⁻¹のとき、滑りは何%か。',a:['1%','2%','4%','6%','10%'],c:2,e:'s=(1500−1440)/1500=0.04=4%。'}]);
+const MONSTERS=[{name:'岩甲獣グランモス',icon:'🦏',desc:'電気回路の草原に棲む岩の巨獣',hp:130,atk:15,topic:0,unlock:0,materials:['岩甲の鱗','岩甲の角','岩甲の尾'],reward:140},{name:'雷翼竜ライゼル',icon:'🐲',desc:'静電界の遺跡を飛ぶ雷の飛竜',hp:220,atk:22,topic:1,unlock:1,materials:['雷翼の鱗','雷翼の角','雷翼の尾'],reward:230},{name:'磁嵐竜マグネオス',icon:'🐉',desc:'磁界の洞窟を支配する古き竜',hp:320,atk:29,topic:2,unlock:2,materials:['磁嵐の鱗','磁嵐の角','磁嵐の尾'],reward:350},{name:'共振王レゾナード',icon:'👹',desc:'交流の塔の頂上で待つ王',hp:430,atk:36,topic:3,unlock:3,materials:['共振の鱗','共振の角','共振の尾'],reward:500},{name:'炎獄竜ヴォルガノス',icon:'🔥',desc:'溶岩を纏う炎の巨竜。電力の試練',hp:540,atk:43,topic:4,unlock:4,materials:['炎獄の鱗','炎獄の角','炎獄の尾'],reward:680},{name:'機皇竜ゼフィリオン',icon:'⚙️',desc:'古代機械を統べる翡翠の機竜。機械の試練',hp:670,atk:51,topic:5,unlock:5,materials:['機皇の鱗','機皇の角','機皇の尾'],reward:850}];
+const RECIPES=[{id:'w1',name:'岩砕きの大剣',type:'weapon',power:15,cost:130,mats:{'岩甲の鱗':2,'岩甲の角':1}},{id:'a1',name:'岩甲の鎧',type:'armor',power:8,cost:120,mats:{'岩甲の鱗':2,'岩甲の尾':1}},{id:'w2',name:'雷翼の大剣',type:'weapon',power:32,cost:320,mats:{'雷翼の鱗':2,'雷翼の角':1}},{id:'a2',name:'雷翼の鎧',type:'armor',power:17,cost:280,mats:{'雷翼の鱗':2,'雷翼の尾':1}},{id:'w3',name:'磁嵐の大剣',type:'weapon',power:52,cost:520,mats:{'磁嵐の鱗':2,'磁嵐の角':1}},{id:'a3',name:'磁嵐の鎧',type:'armor',power:27,cost:480,mats:{'磁嵐の鱗':2,'磁嵐の尾':1}},{id:'w4',name:'共振王の大剣',type:'weapon',power:78,cost:750,mats:{'共振の鱗':2,'共振の角':1}},{id:'a4',name:'共振王の鎧',type:'armor',power:39,cost:700,mats:{'共振の鱗':2,'共振の尾':1}},{id:'w5',name:'炎獄の大剣',type:'weapon',power:100,cost:1100,mats:{'炎獄の鱗':2,'炎獄の角':1}},{id:'a5',name:'炎獄竜の鎧',type:'armor',power:51,cost:1050,mats:{'炎獄の鱗':2,'炎獄の尾':1}},{id:'w6',name:'機皇の大剣',type:'weapon',power:130,cost:1500,mats:{'機皇の鱗':2,'機皇の角':1}},{id:'a6',name:'機皇竜の鎧',type:'armor',power:65,cost:1450,mats:{'機皇の鱗':2,'機皇の尾':1}}];
 const KEY='denken-hunt-v03';const fresh=()=>({lv:1,exp:0,gold:100,wins:0,unlocked:0,monster:0,hp:120,enemyHp:130,parts:[55,60,55],broken:[false,false,false],target:0,turn:0,answered:0,correct:0,inventory:{},owned:[],weapon:null,armor:null,finished:false});let s;try{s=JSON.parse(localStorage.getItem(KEY))||fresh()}catch{s=fresh()}if(!s||!Array.isArray(s.parts)||!MONSTERS[s.monster])s=fresh();let pending=false;const $=id=>document.getElementById(id);const monster=()=>MONSTERS[s.monster];const maxHp=()=>120+(s.lv-1)*20;const attack=()=>25+(s.lv-1)*5+(RECIPES.find(x=>x.id===s.weapon)?.power||0);const defense=()=>3+(s.lv-1)*2+(RECIPES.find(x=>x.id===s.armor)?.power||0);const expNeed=()=>80+s.lv*40;const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}};const partMax=()=>[55+s.monster*25,60+s.monster*25,55+s.monster*25];const partNames=['頭','胴','尻尾'];const question=()=>QUESTIONS[monster().topic][s.turn%QUESTIONS[monster().topic].length];
-function showTab(t){if(t!=='hunt')sound('click');for(const x of ['hunt','quests','forge','record','settings']){$(x).classList.toggle('hidden',x!==t);$('tab'+x).classList.toggle('active',x===t)}renderSecondary()}
-function render(){updateAudioTheme();s.hp=Math.min(s.hp,maxHp());$('level').textContent=s.lv;$('gold').textContent=s.gold+' G';$('wins').textContent=s.wins;$('questTitle').textContent='QUEST '+(s.monster+1)+' / '+['直流回路','静電界','磁界','交流回路'][monster().topic];$('monsterName').textContent=monster().name;$('monsterDesc').textContent=monster().desc;$('monsterIcon').innerHTML='<img src="./assets/monster-'+s.monster+'.webp" alt="'+monster().name+'">';$('rage').textContent=s.enemyHp<=monster().hp/2?'🔥 怒り状態':'通常状態';$('monsterHp').textContent='モンスター HP '+s.enemyHp+'/'+monster().hp;$('hunterHp').textContent='ハンター HP '+s.hp+'/'+maxHp();$('monsterBar').style.width=100*s.enemyHp/monster().hp+'%';$('hunterBar').style.width=100*s.hp/maxHp()+'%';$('combatStats').textContent='大剣攻撃 '+attack()+' / 防御 '+defense()+' / EXP '+s.exp+'/'+expNeed();$('parts').innerHTML='';partNames.forEach((name,i)=>{let b=document.createElement('button');b.className='part'+(s.target===i?' selected':'');b.disabled=pending;b.textContent=name+(s.broken[i]?' 💥破壊済':' '+Math.max(0,s.parts[i])+'HP');b.onclick=()=>{s.target=i;render()};$('parts').appendChild(b)});$('heal').disabled=pending||s.gold<80||s.hp===maxHp();if(!pending)renderQuestion();renderSecondary();save()}
+// 出典：令和5年度下期第三種電気主任技術者試験（2024年3月24日実施）
+// 公式解答表の問1〜問10を照合。問題文・図・選択肢は公式問題PDFで確認する。
+const PAST_PAPERS={
+ 理論:{answers:[1,1,4,2,5,4,5,2,2,5],pdf:'https://www.shiken.or.jp/chief/third/qa/index.html',monster:1},
+ 電力:{answers:[3,4,3,3,5,3,3,2,1,3],pdf:'https://www.shiken.or.jp/chief/third/qa/index.html',monster:4},
+ 機械:{answers:[2,2,5,5,3,3,1,5,3,2],pdf:'https://www.shiken.or.jp/chief/third/qa/index.html',monster:5},
+ 法規:{answers:[4,3,4,2,2,1,2,4,1,4],pdf:'https://www.shiken.or.jp/chief/third/qa/index.html',monster:3}
+};
+const PAST_ANS='https://www.shiken.or.jp/chief/upload/20240324_ch_third_a01.pdf';
+let pastDone={},pastLocked=false;
+try{pastDone=JSON.parse(localStorage.getItem('denken-past-v071')||'{}')}catch(e){}
+function pastChange(){
+ const subject=$('pastSubject').value,paper=PAST_PAPERS[subject],n=Number($('pastNumber').value)||1;
+ $('pastSource').textContent='出典：令和5年度下期第三種電気主任技術者試験・'+subject+'科目・問'+n;
+ $('pastHeading').textContent=MONSTERS[paper.monster].name+'の試練：公式問題の問'+n+'を解いて、正しい番号を選ぼう！';
+ $('pastQuestionLink').href=paper.pdf;
+ $('pastAnswerLink').href=PAST_ANS;
+ $('pastFeedback').textContent=pastDone[subject+'-'+n]?'この問題は正解報酬を獲得済み。復習は何度でもできます。':'正解するとモンスターにダメージ！初回正解で30G・20EXP。';
+ $('pastChoices').innerHTML='';
+ for(let i=1;i<=5;i++){const btn=document.createElement('button');btn.textContent='（'+i+'）';btn.onclick=()=>pastAnswer(i);$('pastChoices').appendChild(btn)}
+ pastLocked=false;
+}
+function renderPast(){
+ const el=$('pastNumber'),old=el.value;el.innerHTML='';
+ for(let i=1;i<=10;i++){const o=document.createElement('option');o.value=i;o.textContent='問'+i;el.appendChild(o)}
+ if(old)el.value=old;
+ pastChange();
+}
+function pastAnswer(i){
+ if(pastLocked)return;pastLocked=true;
+ const subject=$('pastSubject').value,n=Number($('pastNumber').value),correct=PAST_PAPERS[subject].answers[n-1],key=subject+'-'+n;
+ const buttons=$('pastChoices').querySelectorAll('button');
+ buttons.forEach((b,j)=>{b.disabled=true;if(j+1===correct)b.style.borderColor='#4bd69c';if(j+1===i&&i!==correct)b.style.borderColor='#ff6464'});
+ if(i===correct){
+  if(!pastDone[key]){pastDone[key]=true;s.gold+=30;s.exp+=20;s.answered++;s.correct++;save();localStorage.setItem('denken-past-v071',JSON.stringify(pastDone));renderStats();$('pastFeedback').textContent='⚔️ 正解！ '+MONSTERS[PAST_PAPERS[subject].monster].name+'に一撃！ 初回報酬 +30G・+20EXP';sound('hit');combatFx('slash',30)}
+  else $('pastFeedback').textContent='⚔️ 正解！ 復習クリア（報酬は初回のみ）';
+ }else{s.answered++;save();renderStats();$('pastFeedback').textContent='不正解。正解は（'+correct+'）。公式解答表と問題PDFを見比べて復習しよう。';sound('hurt')}
+}
+function pastNext(){const el=$('pastNumber');el.value=Number(el.value)%10+1;pastChange()}
+function showTab(t){if(t!=='hunt')sound('click');for(const x of ['hunt','quests','past','forge','record','settings']){$(x).classList.toggle('hidden',x!==t);$('tab'+x).classList.toggle('active',x===t)}renderSecondary();if(t==='past')renderPast()}
+function render(){updateAudioTheme();s.hp=Math.min(s.hp,maxHp());$('level').textContent=s.lv;$('gold').textContent=s.gold+' G';$('wins').textContent=s.wins;$('questTitle').textContent='QUEST '+(s.monster+1)+' / '+['直流回路','静電界','磁界','交流回路','電力','機械'][monster().topic];$('monsterName').textContent=monster().name;$('monsterDesc').textContent=monster().desc;$('monsterIcon').innerHTML='<img src="./assets/monster-'+s.monster+'.webp" alt="'+monster().name+'">';$('rage').textContent=s.enemyHp<=monster().hp/2?'🔥 怒り状態':'通常状態';$('monsterHp').textContent='モンスター HP '+s.enemyHp+'/'+monster().hp;$('hunterHp').textContent='ハンター HP '+s.hp+'/'+maxHp();$('monsterBar').style.width=100*s.enemyHp/monster().hp+'%';$('hunterBar').style.width=100*s.hp/maxHp()+'%';$('combatStats').textContent='大剣攻撃 '+attack()+' / 防御 '+defense()+' / EXP '+s.exp+'/'+expNeed();$('parts').innerHTML='';partNames.forEach((name,i)=>{let b=document.createElement('button');b.className='part'+(s.target===i?' selected':'');b.disabled=pending;b.textContent=name+(s.broken[i]?' 💥破壊済':' '+Math.max(0,s.parts[i])+'HP');b.onclick=()=>{s.target=i;render()};$('parts').appendChild(b)});$('heal').disabled=pending||s.gold<80||s.hp===maxHp();if(!pending)renderQuestion();renderSecondary();save()}
 function renderQuestion(){const q=question();$('question').textContent=q.q;$('choices').innerHTML='';q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='choice';b.textContent='ABCDE'[i]+'. '+a;b.onclick=()=>answer(i);$('choices').appendChild(b)});$('feedback').innerHTML='';$('next').style.display='none'}
 function addMat(mat,n){s.inventory[mat]=(s.inventory[mat]||0)+n}
 
@@ -153,7 +131,7 @@ function addMat(mat,n){s.inventory[mat]=(s.inventory[mat]||0)+n}
 let monsterAttackTimer=0;
 function monsterAttackFx(monsterIndex){
  const arena=document.getElementById('monsterIcon');if(!arena)return;
- const styles=['charge','storm','pulse','roar'];const names=['💥 岩甲獣の突進！','⚡ 雷翼竜の雷撃！','🧲 磁嵐竜の磁力波！','🔊 共振王の咆哮！'];
+ const styles=['charge','storm','pulse','roar','storm','pulse'];const names=['💥 岩甲獣の突進！','⚡ 雷翼竜の雷撃！','🧲 磁嵐竜の磁力波！','🔊 共振王の咆哮！','🔥 炎獄竜の火炎！','⚙️ 機皇竜の機構波！'];
  arena.querySelectorAll('.monster-attack-layer').forEach(x=>x.remove());
  arena.classList.remove(...styles.map(x=>'monster-'+x));void arena.offsetWidth;
  const kind=styles[monsterIndex]||'charge';arena.classList.add('monster-'+kind);
@@ -161,8 +139,8 @@ function monsterAttackFx(monsterIndex){
  const label=document.createElement('div');label.className='attack-name';label.textContent=names[monsterIndex]||names[0];layer.appendChild(label);
  const add=(cls,styles={})=>{const el=document.createElement('div');el.className=cls;Object.entries(styles).forEach(([k,v])=>el.style.setProperty(k,v));layer.appendChild(el)};
  if(monsterIndex===0)add('attack-wave');
- else if(monsterIndex===1){for(let i=0;i<4;i++)add('attack-bolt',{'--x':(12+i*23)+'%','--w':(7+i%2*5)+'px'});}
- else if(monsterIndex===2){add('attack-magnet');add('attack-magnet');}
+ else if((monsterIndex===1||monsterIndex===4)){for(let i=0;i<4;i++)add('attack-bolt',{'--x':(12+i*23)+'%','--w':(7+i%2*5)+'px'});}
+ else if((monsterIndex===2||monsterIndex===5)){add('attack-magnet');add('attack-magnet');}
  else {for(let i=0;i<3;i++)add('attack-sonic');}
  arena.appendChild(layer);clearTimeout(monsterAttackTimer);
  monsterAttackTimer=setTimeout(()=>{layer.remove();arena.classList.remove('monster-'+kind)},900);
